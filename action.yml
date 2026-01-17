@@ -1,5 +1,5 @@
-name: cibuilder runner
-description: run cibuilder in a standalone docker container
+name: cibuilder runner dind
+description: run cibuilder in a cibuilder net and docker-in-docker service
 
 inputs:
   run_cmd:

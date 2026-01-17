@@ -24,8 +24,23 @@ CIBUILD_BUILD_BUILDKIT_SERVICE_ACCOUNT=$CIBUILD_BUILD_BUILDKIT_SERVICE_ACCOUNT
 CIBUILD_TEST_SERVICE_ACCOUNT=$CIBUILD_TEST_SERVICE_ACCOUNT
 EOF
 
+docker network create cibuilder-net
+
+docker network inspect cibuilder-net
+
+docker run --privileged --rm -d \
+  -e DOCKER_HOST=tcp://0.0.0.0:2375 \
+  -e DOCKER_TLS_VERIFY= \
+  -e DOCKER_TLS_CERTDIR= \
+  --network cibuilder-net \
+  --network-alias docker \
+  --name cibuilder-dind \
+  docker:dind
+
 docker run --privileged --rm \
   --env-file github.env \
   -v "$PWD:/workspace" \
   -w /workspace \
+  --network cibuilder-net \
+  --name cibuilder \
   "$IMAGE"
