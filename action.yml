@@ -5,6 +5,10 @@ inputs:
   run_cmd:
     description: cibuilder command (check|build|test|deploy|all)
     required: true
+  bin_url:
+    description: cibuilder bin url (repo url)
+    required: false
+    default: ""
   bin_ref:
     description: cibuilder bin ref (branch, tag)
     required: false
@@ -22,5 +26,6 @@ runs:
       run: |
         "${{ github.action_path }}/run.sh" \
           "${{ inputs.run_cmd }}" \
+          "${{ inputs.bin_url }}" \
           "${{ inputs.bin_ref }}" \
           "${{ inputs.image }}"
