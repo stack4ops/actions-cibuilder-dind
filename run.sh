@@ -1,11 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-RUN_CMD="$1"
-BIN_URL="$2"
-BIN_REF="$3"
-IMAGE="$4"
-
 export CIBUILD_RUN_CMD="$1"
 export CIBUILDER_BIN_URL="$2"
 export CIBUILDER_BIN_REF="$3"
