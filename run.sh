@@ -35,6 +35,7 @@ docker run --privileged --rm -d \
 
 docker run --privileged --rm \
   --env-file github.env \
+  -e DOCKER_HOST=tcp://docker:2375 \
   -v "$PWD:/workspace" \
   -v "${CIBUILD_OUTPUT}:/cibuild-output" \
   -w /workspace \
