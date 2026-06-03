@@ -18,6 +18,8 @@ env | grep '^CIBUILD_' >> github.env
 env | grep '^CIBUILDER_' >> github.env
 echo "CIBUILD_OUTPUT_DIR=/cibuild-output" >> github.env
 
+sudo chown -R 1000:1000 "$PWD"
+
 docker network create cibuilder-net
 
 docker network inspect cibuilder-net
