@@ -12,14 +12,13 @@ IMAGE="$4"
 
 CIBUILD_OUTPUT="${RUNNER_TEMP:-/tmp}/cibuild-output"
 mkdir -p "${CIBUILD_OUTPUT}"
-chmod 1777 "${CIBUILD_OUTPUT}"
+sudo chmod 1777 "${CIBUILD_OUTPUT}"
 
-env | grep '^GITHUB_' > github.env
-env | grep '^ACTIONS_' >> github.env
-env | grep '^CIBUILD_' >> github.env
-env | grep '^CIBUILDER_' >> github.env
-echo "CIBUILD_OUTPUT_DIR=/cibuild-output" >> github.env
-sudo chmod 777 github.env
+env | grep '^GITHUB_' > /tmp/github.env
+env | grep '^ACTIONS_' >> /tmp/github.env
+env | grep '^CIBUILD_' >> /tmp/github.env
+env | grep '^CIBUILDER_' >> /tmp/github.env
+echo "CIBUILD_OUTPUT_DIR=/cibuild-output" >> /tmp/github.env
 
 sudo chown -R 1000:1000 "$PWD"
 
@@ -37,7 +36,7 @@ docker run --privileged --rm -d \
   docker:dind
 
 docker run --privileged --rm \
-  --env-file github.env \
+  --env-file /tmp/github.env \
   -e DOCKER_HOST=tcp://docker:2375 \
   -v "$PWD:/workspace" \
   -v "${CIBUILD_OUTPUT}:/cibuild-output" \
@@ -45,3 +44,5 @@ docker run --privileged --rm \
   --network cibuilder-net \
   --name cibuilder \
   "$IMAGE"
+
+sudo rm -f /tmp/github.env
